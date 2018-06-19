@@ -46,6 +46,8 @@ int main() {
         save(board);
         break;
     }
-  } while (ch != 'Z');
+  } while (ch != 'z');
+
+  deinitialize();
   return 0;
 }

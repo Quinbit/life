@@ -7,6 +7,12 @@ void initialize() {
   keypad(stdscr, TRUE);
 }
 
+void deinitialize() {
+  echo();
+  nocbreak();
+  endwin();
+}
+
 void displayBoard(bool ** board, int rows, int cols) {
 
 }
@@ -22,12 +28,12 @@ int get_input() {
   do {
     ch = getch();
 
-    if (ch < 10) {
+    if (ch != 10) {
       total_string = total_string + to_string(ch);
-      addstr(to_string(ch).c_str());
+      //addstr(to_string(ch).c_str());
       refresh();
     }
-  } while (ch != 0);
+  } while (ch != 10);
 
   return atoi(total_string.c_str());
 }

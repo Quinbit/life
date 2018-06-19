@@ -32,10 +32,12 @@ int getrows() {
 
   do {
     ch = get_input();
+    addstr("DONE");
 
     if (ch < 1) {
       clear();
       mvaddstr(0,0,"Invalid input, please try again\n");
+      refresh();
     }
   } while (ch < 1);
 
