@@ -180,7 +180,7 @@ void move_cursor_down(int cols) {
   int y;
 
   getyx(stdscr, y, x);
-  cerr << x << " " << y << endl;
+  
   if (y < cols) {
     y = y + 1;
   }
