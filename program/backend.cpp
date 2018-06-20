@@ -273,10 +273,21 @@ bool ** loadBoard(bool ** board, int* rows, int* cols) {
 
   getdir("saves",files);
 
-  files.erase(remove(files.begin(), files.end(), "."), files.end());
-  files.erase(remove(files.begin(), files.end(), ".."), files.end());
+  if (files.size() == 2) {
+    clear();
+    mvaddstr(0,0,"There are currently no saves");
+    refresh();
+    this_thread::sleep_for(chrono::seconds(2));
+    ch = 10;
 
-  it = files.begin();
+    b = board;
+  }
+  else {
+    files.erase(remove(files.begin(), files.end(), "."), files.end());
+    files.erase(remove(files.begin(), files.end(), ".."), files.end());
+
+    it = files.begin();
+  }
 
   while (ch != 10) {
 
@@ -333,6 +344,31 @@ bool ** loadBoard(bool ** board, int* rows, int* cols) {
           it = files.begin();
         }
         destroyBoard(nboard, nrows, ncols);
+        break;
+      case 'd':
+        if(remove(("saves/" + (*it)).c_str()) != 0 ) {
+          clear();
+          mvaddstr(0,0,"Could not delete file");
+          refresh();
+          this_thread::sleep_for(chrono::seconds(2));
+        }
+        else {
+          clear();
+          mvaddstr(0,0,"Deleted File");
+          refresh();
+          this_thread::sleep_for(chrono::seconds(2));
+          files.erase(remove(files.begin(), files.end(), *it), files.end());
+
+          if (files.size() == 0) {
+            clear();
+            mvaddstr(0,0,"There are currently no saves");
+            refresh();
+            this_thread::sleep_for(chrono::seconds(2));
+            ch = 10;
+
+            b = board;
+          }
+        }
         break;
     }
   }

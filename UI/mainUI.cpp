@@ -109,6 +109,7 @@ void displayLoadBoard(bool ** board, int rows, int cols, string name) {
   displayString = displayString + "\n\nThis is file " + name;
   displayString = displayString + "\nPress ENTER to load " + name + " shown above";
   displayString = displayString + "\nPress 'c' to cancel";
+  displayString = displayString + "\nPress 'd' to delete the above configuration";
 
   clear();
   mvaddstr(0,0,displayString.c_str());
@@ -137,6 +138,7 @@ string get_name() {
   char ch;
   string total_string = "";
   echo();
+  nocbreak();
 
   clear();
   mvaddstr(0,0,"Please enter in the desired name for this configuration: ");
@@ -153,6 +155,7 @@ string get_name() {
   } while (ch != 10);
 
   noecho();
+  cbreak();
 
   return total_string;
 }
