@@ -6,6 +6,7 @@
 #include <string>
 #include <curses.h>
 #include <iostream>
+#include <ctime>
 
 using namespace std;
 
@@ -20,5 +21,7 @@ bool ** boardSetup(int rows, int cols);
 void run();
 void save(bool ** board);
 bool ** loadBoard(string file);
+void destroyBoard(bool ** board, int rows, int cols);
+void editSpace(bool ** board, int rows, int cols);
 
 #endif

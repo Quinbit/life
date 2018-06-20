@@ -12,7 +12,6 @@ using namespace std;
 
 void initialize();
 void displayBoard(bool ** board, int width, int height);
-int requestPosInt(string request);
 int get_input();
 void deinitialize();
 

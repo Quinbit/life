@@ -16,13 +16,13 @@ int main() {
   do {
     displayBoard(board, rows, cols);
     ch = getch();
-    cout << ch;
 
     switch(ch) {
       case KEY_ENTER:
+        step(board, rows, cols);
         break;
-      case 'E':
-        ch = requestPosInt("uhh");
+      case 'e':
+        editSpace(board, rows, cols);
         break;
       case KEY_UP:
         move_cursor_up();
@@ -36,18 +36,19 @@ int main() {
       case KEY_LEFT:
         move_cursor_left();
         break;
-      case 'R':
+      case 'r':
         run();
         break;
-      case 'L':
+      case 'l':
         board = loadBoard(NULL);
         break;
-      case 'S':
+      case 's':
         save(board);
         break;
     }
   } while (ch != 'z');
 
+  destroyBoard(board, rows, cols);
   deinitialize();
   return 0;
 }
