@@ -119,6 +119,7 @@ void displayLoadBoard(bool ** board, int rows, int cols, string name) {
 int get_input() {
   char ch;
   string total_string = "";
+  nocbreak();
 
   do {
     ch = getch();
@@ -130,6 +131,8 @@ int get_input() {
       refresh();
     }
   } while (ch != 10);
+
+  cbreak();
 
   return atoi(total_string.c_str());
 }

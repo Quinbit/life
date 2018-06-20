@@ -320,10 +320,10 @@ bool ** loadBoard(bool ** board, int* rows, int* cols) {
         destroyBoard(nboard, nrows, ncols);
         break;
       case 10:
+        destroyBoard(board, *rows, *cols);
         *rows = nrows;
         *cols = ncols;
 
-        destroyBoard(board, *rows, *cols);
         b = createEmptyBoard(nrows, ncols);
         for (int i=0; i < ncols; i++) {
           for (int x=0; x < nrows; x++) {
