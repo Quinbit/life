@@ -2,7 +2,7 @@
 CC = g++
 
 #define flags for compiling
-CFLAGS  = -g -Wall -std=c++11
+CFLAGS  = -std=c++11
 
 CURSES = -lncurses
 
@@ -15,9 +15,9 @@ OBJS = $(SRCS:.cpp=.o)
 EXE = life
 
 all: $(SRCS) $(DEPS)
-	$(CC) $(CFLAGS) -o $(EXE) $^ $(CURSES)
+	$(CC) $(CFLAGS) $^ $(CURSES) 
 
 clean:
-	rm -rf $(EXE)
+	rm -rf a.out
 
 .PHONY: clean
