@@ -70,6 +70,51 @@ void displayBoard(bool ** board, int rows, int cols, bool running) {
   refresh();
 }
 
+
+void displayLoadBoard(bool ** board, int rows, int cols, string name) {
+  string displayString = " ";
+  string symbol = "O";
+
+  for (int i = 0; i < cols; i++) {
+    displayString = displayString + "_ ";
+  }
+
+  displayString = displayString + "\n";
+
+  for (int i = 0; i < rows; i++) {
+    displayString = displayString + "|";
+    for (int x = 0; x < cols; x++) {
+      if (board[x][i]) {
+        displayString = displayString + symbol;
+      }
+      else {
+        displayString = displayString + " ";
+      }
+
+      if (x != (cols-1)) {
+        displayString = displayString + " ";
+      }
+      else {
+        displayString = displayString + "|\n";
+      }
+    }
+  }
+
+  displayString = displayString + " ";
+
+  for (int i = 0; i < cols; i++) {
+    displayString = displayString + "¯ ";
+  }
+
+  displayString = displayString + "\n\nThis is file " + name;
+  displayString = displayString + "\nPress ENTER to load " + name + " shown above";
+  displayString = displayString + "\nPress 'c' to cancel";
+
+  clear();
+  mvaddstr(0,0,displayString.c_str());
+  refresh();
+}
+
 int get_input() {
   char ch;
   string total_string = "";
@@ -94,7 +139,7 @@ string get_name() {
   echo();
 
   clear();
-  mvaddstr(0,0,"Please enter in the desired name for this configuration")
+  mvaddstr(0,0,"Please enter in the desired name for this configuration: ");
 
   do {
     ch = getch();

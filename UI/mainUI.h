@@ -21,5 +21,6 @@ void move_cursor_right(int rows);
 void displayNeighbour(bool ** board, int rows, int cols);
 int countNeighbours(bool ** board, int rows, int cols, int x, int y);
 string get_name();
+void displayLoadBoard(bool ** nboard, int nrows, int ncols, string name);
 
 #endif

@@ -1,6 +1,44 @@
 
 #include "backend.h"
 
+int getdir (string dir, vector<string> &files)
+{
+    DIR *dp;
+    struct dirent *dirp;
+    if((dp  = opendir(dir.c_str())) == NULL) {
+        cout << "Error(" << errno << ") opening " << dir << endl;
+        return errno;
+    }
+
+    while ((dirp = readdir(dp)) != NULL) {
+        files.push_back(string(dirp->d_name));
+    }
+    closedir(dp);
+    return 0;
+}
+
+void destroyBoard(bool ** board, int rows, int cols) {
+  for (int i=0; i < cols; i++) {
+    free(board[i]);
+  }
+
+  free(board);
+}
+
+bool **createEmptyBoard(int rows, int cols) {
+  bool ** b = (bool **)malloc(sizeof(bool *) * cols);
+
+  for (int i=0; i < cols; i++) {
+    b[i] = (bool *)malloc(sizeof(bool) * rows);
+
+    for (int x=0; x < rows; x++) {
+      b[i][x] = FALSE;
+    }
+  }
+
+  return b;
+}
+
 int countNeighbours(bool ** board, int rows, int cols, int x, int y) {
   int xIndex = 0;
   int yIndex = 0;
@@ -195,22 +233,114 @@ void run(bool ** board, int rows, int cols) {
 }
 
 void save(bool ** board, int rows, int cols) {
+  int x,y;
+
+  getyx(stdscr, y, x);
+
   string name = get_name();
+  ofstream myfile;
 
-  
-}
+  myfile.open("saves/" + name + ".txt");
 
-void loadBoard(bool ** board, int rows, int cols) {
+  myfile << rows << "\n";
+  myfile << cols << "\n";
 
-}
-
-void destroyBoard(bool ** board, int rows, int cols) {
-  for (int i=0; i < cols; i++) {
-    free(board[i]);
+  for (int x = 0; x < cols; x++) {
+    for (int y = 0; y < rows; y++) {
+      myfile << board[x][y] << "\n";
+    }
   }
 
-  free(board);
+  myfile.close();
+  clear();
+  mvaddstr(0,0,("File " + name + " has been sucessfully saved").c_str());
+  refresh();
+  this_thread::sleep_for(chrono::seconds(2));
+
+  move(y,x);
 }
+
+bool ** loadBoard(bool ** board, int* rows, int* cols) {
+  int nrows, ncols;
+  int ch = 0;
+  string line;
+  vector<string> files = vector<string>();
+  vector<string>::iterator it;
+  ifstream myfile;
+  bool ** b;
+
+  clear();
+
+  getdir("saves",files);
+
+  files.erase(remove(files.begin(), files.end(), "."), files.end());
+  files.erase(remove(files.begin(), files.end(), ".."), files.end());
+
+  it = files.begin();
+
+  while (ch != 10) {
+
+    myfile.open("saves/" + (*it));
+
+    getline(myfile, line);
+    nrows = atoi(line.c_str());
+    getline(myfile, line);
+    ncols = atoi(line.c_str());
+
+    bool ** nboard = createEmptyBoard(nrows, ncols);
+
+    for (int x = 0; x < ncols; x++) {
+      for (int y = 0; y < nrows; y++) {
+        getline(myfile, line);
+        nboard[x][y] = (bool)atoi(line.c_str());
+      }
+    }
+
+    myfile.close();
+
+    displayLoadBoard(nboard, nrows, ncols, *it);
+
+    ch = getch();
+
+    switch(ch) {
+      case 'c':
+        ch = 10;
+        b = board;
+        destroyBoard(nboard, nrows, ncols);
+        break;
+      case 10:
+        *rows = nrows;
+        *cols = ncols;
+
+        destroyBoard(board, *rows, *cols);
+        b = createEmptyBoard(nrows, ncols);
+        for (int i=0; i < ncols; i++) {
+          for (int x=0; x < nrows; x++) {
+            b[i][x] = nboard[i][x];
+          }
+        }
+        break;
+      case KEY_LEFT:
+        if (it == files.begin()) {
+          it = files.end();
+        }
+        it--;
+        destroyBoard(nboard, nrows, ncols);
+        break;
+      case KEY_RIGHT:
+        it++;
+        if (it==files.end()) {
+          it = files.begin();
+        }
+        destroyBoard(nboard, nrows, ncols);
+        break;
+    }
+  }
+
+  move(1,1);
+  return b;
+}
+
 
 void clearBoard(bool ** board, int rows, int cols) {
   for (int i=0; i < cols; i++) {

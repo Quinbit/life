@@ -42,7 +42,7 @@ int main() {
         run(board, rows, cols);
         break;
       case 'l':
-        loadBoard(board, rows, cols);
+        board = loadBoard(board, &rows, &cols);
         break;
       case 's':
         save(board, rows, cols);

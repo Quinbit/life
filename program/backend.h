@@ -12,6 +12,10 @@
 #include <thread>
 #include <iostream>
 #include <fstream>
+#include <vector>
+#include <dirent.h>
+#include <errno.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -23,7 +27,7 @@ int getcollumns();
 bool ** boardSetup(int rows, int cols);
 void run(bool ** board, int rows, int cols);
 void save(bool ** board, int rows, int cols);
-void loadBoard(bool ** board, int rows, int cols);
+bool ** loadBoard(bool ** board, int * rows, int * cols);
 void destroyBoard(bool ** board, int rows, int cols);
 void editSpace(bool ** board, int rows, int cols);
 void clearBoard(bool ** board, int rows, int cols);
