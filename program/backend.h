@@ -5,23 +5,28 @@
 #include "../UI/mainUI.h"
 #include <string>
 #include <curses.h>
+#include <ncurses.h>
 #include <iostream>
 #include <ctime>
+#include <chrono>
+#include <thread>
+#include <iostream>
+#include <fstream>
 
 using namespace std;
 
+
 void step(bool ** board, int width, int height);
-void move_cursor_up();
-void move_cursor_down();
-void move_cursor_left();
-void move_cursor_right();
+int countNeighbours(bool ** board, int rows, int cols, int x, int y);
 int getrows();
 int getcollumns();
 bool ** boardSetup(int rows, int cols);
-void run();
-void save(bool ** board);
-bool ** loadBoard(string file);
+void run(bool ** board, int rows, int cols);
+void save(bool ** board, int rows, int cols);
+void loadBoard(bool ** board, int rows, int cols);
 void destroyBoard(bool ** board, int rows, int cols);
 void editSpace(bool ** board, int rows, int cols);
+void clearBoard(bool ** board, int rows, int cols);
+void resetBoard(bool ** board, int rows, int cols);
 
 #endif

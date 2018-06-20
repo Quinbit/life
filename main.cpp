@@ -13,12 +13,14 @@ int main() {
   int cols = getcollumns();
 
   bool ** board = boardSetup(rows, cols);
+  move(1,1);
+
   do {
     displayBoard(board, rows, cols);
     ch = getch();
 
     switch(ch) {
-      case KEY_ENTER:
+      case ' ':
         step(board, rows, cols);
         break;
       case 'e':
@@ -28,22 +30,28 @@ int main() {
         move_cursor_up();
         break;
       case KEY_DOWN:
-        move_cursor_down();
+        move_cursor_down(cols);
         break;
       case KEY_RIGHT:
-        move_cursor_right();
+        move_cursor_right(rows);
         break;
       case KEY_LEFT:
         move_cursor_left();
         break;
       case 'r':
-        run();
+        run(board, rows, cols);
         break;
       case 'l':
-        board = loadBoard(NULL);
+        loadBoard(board, rows, cols);
         break;
       case 's':
-        save(board);
+        save(board, rows, cols);
+        break;
+      case 'c':
+        clearBoard(board, rows, cols);
+        break;
+      case 'n':
+        resetBoard(board, rows, cols);
         break;
     }
   } while (ch != 'z');
